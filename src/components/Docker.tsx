@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Dock, DockIcon } from "@/components/magicui/dock";
+
 import {
   Tooltip,
   TooltipContent,
@@ -18,8 +18,8 @@ const Docker = () => {
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
       <TooltipProvider>
-        <Dock direction="middle">
-          <DockIcon>
+        <div className="flex items-center gap-4 bg-white/80 dark:bg-black/40 backdrop-blur-md shadow-lg rounded-full px-4 py-2 border border-muted">
+          <div className="flex justify-center items-center">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -35,14 +35,15 @@ const Docker = () => {
                 </Link>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Github</p>
+                <p>GitHub</p>
               </TooltipContent>
             </Tooltip>
-          </DockIcon>
-          <DockIcon>
+          </div>
+
+          <div className="flex justify-center items-center">
             <ModeToggle />
-          </DockIcon>
-        </Dock>
+          </div>
+        </div>
       </TooltipProvider>
     </div>
   );
