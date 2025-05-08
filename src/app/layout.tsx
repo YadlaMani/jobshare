@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
 import Docker from "@/components/Docker";
+import Hero from "@/components/Hero";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
+          <Hero />
           <Docker />
           <main className="min-h-screen">{children}</main>
-          <Toaster position="top-right" />
+          <Toaster />
         </Providers>
       </body>
     </html>

@@ -1,6 +1,27 @@
 import { NextResponse, type NextRequest } from "next/server";
 import JobModel from "@/models/jobModel";
 import dbConnect from "@/utils/dbConnect";
+import axios from "axios";
+interface JobQuery {
+  type?: string;
+  location?: { $regex: string; $options: string };
+  tags?: { $regex: string; $options: string };
+}
+async function isLinkAlive(url: string) {
+  try {
+    const res = await axios.get(url, {
+      timeout: 5000,
+      maxRedirects: 5,
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (compatible; JobBot/1.0; +https://example.com/bot)",
+      },
+    });
+    return res.status >= 200 && res.status < 400;
+  } catch (err) {
+    return false;
+  }
+}
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -11,7 +32,7 @@ export const GET = async (req: NextRequest) => {
     const location = url.searchParams.get("location");
     const tag = url.searchParams.get("tag");
 
-    const query: any = {};
+    const query: JobQuery = {};
 
     if (type) {
       query.type = type;
@@ -40,7 +61,28 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
 
+    if (!body) {
+      return NextResponse.json({
+        message: "Body is required",
+        status: 400,
+      });
+    }
+
     const { title, company, location, link, description, type, tags } = body;
+    if (!title || !company || !link) {
+      return NextResponse.json({
+        message: "Title, company and link are required",
+        success: false,
+      });
+    }
+
+    let isLinkValid = await isLinkAlive(link);
+    if (isLinkValid === false) {
+      return NextResponse.json({
+        message: "Link is not valid",
+        success: false,
+      });
+    }
 
     const newJob = new JobModel({
       title,
@@ -54,10 +96,17 @@ export const POST = async (req: NextRequest) => {
 
     await newJob.save();
 
-    return new NextResponse("Job saved successfully", { status: 200 });
+    return NextResponse.json({
+      message: "Job saved successfully",
+      job: newJob,
+      success: true,
+    });
   } catch (error) {
     console.error("Error saving job:", error);
 
-    return new NextResponse("Error saving job", { status: 500 });
+    return NextResponse.json({
+      message: "Error saving job",
+      success: false,
+    });
   }
 };
