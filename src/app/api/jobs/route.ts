@@ -25,7 +25,6 @@ export const GET = async (req: NextRequest) => {
       query.tags = { $regex: tag, $options: "i" };
     }
 
-    // Execute query with filters
     const jobs = await JobModel.find(query).sort({ createdAt: -1 });
 
     return NextResponse.json(jobs);

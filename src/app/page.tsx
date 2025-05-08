@@ -72,11 +72,13 @@ export default function Home() {
       });
       if (res.status === 200) {
         setJobs(res.data);
+        console.log(filteredJobs);
         setFilteredJobs(res.data);
       } else {
         toast.error("Failed to fetch jobs");
       }
     } catch (err) {
+      console.log(err);
       toast.error("Failed to fetch jobs");
     }
   }
@@ -111,6 +113,7 @@ export default function Home() {
       setType("Full Time");
       setTags([]);
     } catch (err) {
+      console.log(err);
       toast.error("Failed to submit job");
     }
   };
