@@ -21,24 +21,16 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import axios from "axios";
-import { X, ExternalLink, Filter } from "lucide-react";
+import { X, Filter } from "lucide-react";
 
-const blue = "text-blue-600 dark:text-blue-400";
 const indigo = "text-indigo-600 dark:text-indigo-400";
-const violet = "text-violet-600 dark:text-violet-400";
+
 const cardStyle =
   "border border-blue-100 dark:border-blue-900 shadow-md hover:shadow-lg transition-shadow duration-300";
-const sectionBg =
-  "bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 dark:from-blue-950 dark:via-indigo-950 dark:to-violet-950";
+
 const softCard = "bg-background/80 backdrop-blur-md";
 interface Job {
   _id: string;

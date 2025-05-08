@@ -38,6 +38,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
 
         setPreview(res.data.data);
       } catch (err) {
+        console.log(err);
         console.log("No preview available");
       }
     };

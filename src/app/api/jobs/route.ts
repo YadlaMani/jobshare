@@ -19,6 +19,7 @@ async function isLinkAlive(url: string) {
     });
     return res.status >= 200 && res.status < 400;
   } catch (err) {
+    console.log(err);
     return false;
   }
 }
@@ -76,7 +77,7 @@ export const POST = async (req: NextRequest) => {
       });
     }
 
-    let isLinkValid = await isLinkAlive(link);
+    const isLinkValid = await isLinkAlive(link);
     if (isLinkValid === false) {
       return NextResponse.json({
         message: "Link is not valid",
